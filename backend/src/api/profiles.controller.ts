@@ -5,7 +5,6 @@ import { UUID } from "bson";
 export default class ProfilesController {
     static async apiGetProfileById(req: Request, res: Response, next: NextFunction) {
          const {id} = req.params;
-         console.log(id);
          res.json(await profilesDAO.getProfileById(new UUID(id)));
 
     }
