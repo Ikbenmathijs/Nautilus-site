@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 
-
-export default function CheckLogin() {
+let t: Function = () => {}
+export default function CheckLogin({callback}: {callback?: Function}) {
 
     const router = useRouter();
 
@@ -15,6 +15,9 @@ export default function CheckLogin() {
                     token: localStorage.getItem("loginToken")
                 }).then((response) => {
                     console.log("Verified login!");
+                    if (callback) {
+                        callback(response.data);
+                    }
                 }).catch((e) => {
                     console.log("You have to log in again!");
                     router.push("/login");
