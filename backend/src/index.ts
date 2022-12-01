@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongodb, { Int32, MongoClient } from "mongodb";
 import app from "./server";
 import profilesDAO from "./dao/profilesDAO";
+import usersDAO from "./dao/usersDAO";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ const client: MongoClient = new MongoClient(
     uri, 
     {
         maxPoolSize: 50,
-        wtimeoutMS: 2500,
+        wtimeoutMS: 2500
     });
 client.connect().catch((e) => {
     console.error(e.stack);
@@ -22,6 +23,7 @@ client.connect().catch((e) => {
 }).then(async client => {
     app.listen(port, () => {
         profilesDAO.injectDB(client);
-        console.log(`Listening on port ${port}`)
+        usersDAO.injectDB(client);
+        console.log(`Listening on port ${port}`);
     });
 });
