@@ -4,6 +4,7 @@ import mongodb, { Int32, MongoClient } from "mongodb";
 import app from "./server";
 import profilesDAO from "./dao/profilesDAO";
 import usersDAO from "./dao/usersDAO";
+import linkingCodesDAO from "./dao/linkingCodesDAO";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ client.connect().catch((e) => {
     app.listen(port, () => {
         profilesDAO.injectDB(client);
         usersDAO.injectDB(client);
+        linkingCodesDAO.injectDB(client);
         console.log(`Listening on port ${port}`);
     });
 });
