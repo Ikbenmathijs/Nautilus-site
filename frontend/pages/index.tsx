@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
   <div>
-    <h1>Hallo {name}!</h1>
+    <h1 className="text-slate-400">Hallo {name}!</h1>
     <LogoutButton />
     <CheckLogin callback={onLogIn} />
   </div>

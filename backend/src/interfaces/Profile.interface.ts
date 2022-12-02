@@ -1,6 +1,7 @@
 import { UUID } from "bson";
 import PermissionInfo from "./PermissionInfo.interface";
 import SkinBlob from "./SkinBlob.interface";
+import { ObjectId } from "bson";
 
 
 
@@ -16,4 +17,5 @@ export default interface profile {
     maskSkin?: SkinBlob;
     disguise?: string;
     permissionInfo?: PermissionInfo;
+    user?: ObjectId;
 }
