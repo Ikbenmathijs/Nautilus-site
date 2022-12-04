@@ -30,7 +30,6 @@ export default function Home() {
     }
   }
 
-  //onSuccess={linkSuccess}
   return (
   <div>
     <h1 className="text-slate-400">Hallo {name}!</h1>
