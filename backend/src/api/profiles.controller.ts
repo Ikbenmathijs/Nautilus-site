@@ -8,4 +8,7 @@ export default class ProfilesController {
          res.json(await profilesDAO.getProfileById(new UUID(id)));
 
     }
+
+
+    
 }

@@ -11,6 +11,6 @@ export default function LogoutButton() {
  
 
     return (
-        <button onClick={logout}>Uitloggen</button>
+        <button className="dark:text-white" onClick={logout}>Uitloggen</button>
     )
 }

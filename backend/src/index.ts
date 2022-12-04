@@ -4,7 +4,7 @@ import mongodb, { Int32, MongoClient } from "mongodb";
 import app from "./server";
 import profilesDAO from "./dao/profilesDAO";
 import usersDAO from "./dao/usersDAO";
-import linkingCodesDAO from "./dao/linkingCodesDAO";
+import linkingCodesDAO from "./dao/linkingTokensDAO";
 
 dotenv.config();
 
