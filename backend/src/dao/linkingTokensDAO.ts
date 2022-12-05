@@ -13,7 +13,7 @@ export default class LinkingCodesController {
         if (linkingCodes) return;
 
         try {
-            linkingCodes = conn.db("nautilus").collection("googleLinkTokens");
+            linkingCodes = conn.db("nautilus-dev").collection("googleLinkTokens");
         } catch (e) {
             console.log(`Failed to inject DB in linking codes DAO: ${e}`);
         }

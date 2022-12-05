@@ -26,7 +26,10 @@ export default class LinkingController {
                         if (updateResult != null) {
                             res.json(updateResult);
 
+
+                            await usersDAO.updateMinecraftUuidByObjectId(user._id, profile._id);
                             await linkingTokensDAO.deleteLinkingTokenFromUuid(linkObj._id);
+                            
                         } else {
                             res.status(500).json({error: "Failed to update profile"});
                         }

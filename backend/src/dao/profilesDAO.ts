@@ -10,7 +10,7 @@ export default class profilesDAO {
         if (profiles) return;
 
         try {
-            profiles = conn.db("nautilus").collection("profiles");
+            profiles = conn.db("nautilus-dev").collection("profiles");
         } catch (e) {
             console.error(`Failed to connect in profilesDAO: ${e}`);
         }

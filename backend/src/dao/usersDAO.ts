@@ -1,5 +1,5 @@
 import { MongoClient, Collection } from "mongodb";
-import { ObjectId } from "bson";
+import { ObjectId, UUID } from "bson";
 import User from "../interfaces/User.interface";
 
 let users: Collection<User>;
@@ -11,7 +11,7 @@ export default class usersDAO {
         if (users) return;
 
         try {
-            users = conn.db("nautilus").collection("users");
+            users = conn.db("nautilus-dev").collection("users");
         } catch (e) {
             console.error(`Failed to connect to DB in usersDAO: ${e}`);
         }
@@ -39,6 +39,16 @@ export default class usersDAO {
     static async createNewUser(newUser: User) {
         try {
             return await users.insertOne(newUser);
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    }
+
+
+    static async updateMinecraftUuidByObjectId(id: ObjectId, minecraftUuid: UUID) {
+        try {
+            return await users.updateOne({_id: id}, {$set: {minecraftUuid: minecraftUuid}});
         } catch (e) {
             console.error(e);
             return null;

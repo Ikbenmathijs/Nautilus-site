@@ -1,4 +1,4 @@
-import { ObjectID } from "bson";
+import { ObjectID, UUID } from "bson";
 
 export default interface User {
     _id: ObjectID;
@@ -6,5 +6,5 @@ export default interface User {
     lastName?: string;
     email?: string;
     googleID: string;
-    
+    minecraftUuid?: UUID;
 }
