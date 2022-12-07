@@ -7,11 +7,6 @@ import { TokenPayload } from "google-auth-library";
 
 const discordOauth = new DiscordOAuth2();
 
-
-async function getCurrentDiscordUser(accesToken: string) {
-    const discordUser = axios.get(`${process.env.DISCORD_API_URL}/users@me`)
-}
-
 export default class DiscordController {
 
     
