@@ -14,6 +14,8 @@ async function getCurrentDiscordUser(accesToken: string) {
 
 export default class DiscordController {
 
+    
+
     static async apiVerifyDiscord(req: Request, res: Response, next: NextFunction) {
 
         const verified = await verifyUser(req.body.token);

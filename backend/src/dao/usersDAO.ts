@@ -11,7 +11,7 @@ export default class usersDAO {
         if (users) return;
 
         try {
-            users = conn.db("nautilus-dev").collection("users");
+            users = conn.db(process.env.DB_NAME as string).collection("users");
         } catch (e) {
             console.error(`Failed to connect to DB in usersDAO: ${e}`);
         }
