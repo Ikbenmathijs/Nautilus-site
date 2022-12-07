@@ -5,6 +5,7 @@ import app from "./server";
 import profilesDAO from "./dao/profilesDAO";
 import usersDAO from "./dao/usersDAO";
 import linkingCodesDAO from "./dao/linkingTokensDAO";
+import discordDAO from "./dao/discordDAO";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ client.connect().catch((e) => {
         profilesDAO.injectDB(client);
         usersDAO.injectDB(client);
         linkingCodesDAO.injectDB(client);
+        discordDAO.injectDB(client);
         console.log(`Listening on port ${port}`);
     });
 });

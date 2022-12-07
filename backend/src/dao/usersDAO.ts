@@ -55,4 +55,14 @@ export default class usersDAO {
         }
     }
 
+
+    static async updateDiscordObjectIdByObjectId(id: ObjectId, discordId: ObjectId) {
+        try {
+            return await users.updateOne({_id: id}, {$set: {discordUserEntry: discordId}});
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    }
+
 }

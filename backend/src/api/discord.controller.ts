@@ -3,7 +3,10 @@ import { verifyUser } from "./auth";
 import axios, {AxiosResponse} from "axios";
 import DiscordOAuth2 from "discord-oauth2";
 import { TokenPayload } from "google-auth-library";
-
+import usersDAO from "../dao/usersDAO";
+import discordDAO from "../dao/discordDAO";
+import User from "../interfaces/User.interface";
+import { ObjectId } from "mongodb";
 
 const discordOauth = new DiscordOAuth2();
 
@@ -41,6 +44,18 @@ export default class DiscordController {
                     nickname: (verified.payload as TokenPayload).name
                 });
                 res.json();
+
+                const googleUser = await usersDAO.getUserByGoogleId((verified.payload as TokenPayload).sub);
+                if (googleUser) {
+                    const newDiscordEntry = await discordDAO.createDiscordUser({
+                        _id: new ObjectId,
+                        googleUser: (googleUser as User)._id,
+                        discordUser: discordUser
+                    });
+                    if (newDiscordEntry && newDiscordEntry.insertedId) {
+                        await usersDAO.updateDiscordObjectIdByObjectId(googleUser._id, newDiscordEntry.insertedId);
+                    }
+                }
                 return;
             }).catch((e) => {
                 console.error(e);

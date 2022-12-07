@@ -7,4 +7,5 @@ export default interface User {
     email?: string;
     googleID: string;
     minecraftUuid?: UUID;
+    discordUserEntry?: ObjectID;
 }
