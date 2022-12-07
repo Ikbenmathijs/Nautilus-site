@@ -5,6 +5,7 @@ import { useState } from "react";
 import TokenBox from "../components/tokenBox";
 import { Axios, AxiosError } from "axios";
 import NautilusApiError from "../interfaces/NautilusApiError.interface";
+import DiscordButton from "../components/discordButton";
 
 export default function Home() {
   const [name, setName] = useState("");
@@ -44,6 +45,7 @@ export default function Home() {
     <p className="dark:text-white">{status}</p>
     <br />
     <br />
+    <DiscordButton />
     <br />
     <br />
     <LogoutButton />
