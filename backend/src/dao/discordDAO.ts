@@ -36,4 +36,22 @@ export default class discordDAO {
         }
     }
 
+    static async getDiscordUserEntryById(Id: ObjectId) {
+        try {
+            return await discordDB.findOne({_id: Id});
+        } catch (e) {
+            console.error(e);
+            return;
+        } 
+    }
+
+    static async deleteDiscordUserEntryById(Id: ObjectId) {
+        try {
+            return await discordDB.deleteOne({_id: Id});
+        } catch (e) {
+            console.error(e);
+            return;
+        } 
+    }
+
 }
