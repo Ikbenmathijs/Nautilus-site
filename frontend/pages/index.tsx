@@ -32,24 +32,14 @@ export default function Home() {
   }
 
   return (
-  <div>
-    <h1 className="text-slate-400">Hallo {name}!</h1>
-    <br />
-    <br />
-    <br />
-    <p className="dark:text-white">Je kan hier je linking token invullen:</p>
-    <br />
-    <TokenBox onSuccess={linkSuccess} onFail={linkFail} />
-    <br />
-    <br />
-    <p className="dark:text-white">{status}</p>
-    <br />
-    <br />
-    <DiscordButton />
-    <br />
-    <br />
+  <>
+    <div className="bg-fixed bg-cover bg-[url('https://cdn.mos.cms.futurecdn.net/v6XoEzDajGRMWNeLY5NMSb-1920-80.jpg.webp')]">
+      <div className="backdrop-blur-md">
+        <div className="py-16 text-center text-slate-200 text-4xl font-bold">Hallo {name}!</div>
+      </div>
+    </div>
     <LogoutButton />
     <CheckLogin callback={onLogIn} />
-  </div>
+  </>
   )
 }
