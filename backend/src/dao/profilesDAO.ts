@@ -1,6 +1,6 @@
-import mongodb, { Collection, MongoClient } from "mongodb";
+import mongodb, { Collection, MongoClient, ObjectId } from "mongodb";
 import profile from "../interfaces/Profile.interface";
-import { UUID, ObjectID } from "bson";
+import { UUID } from "bson";
 
 let profiles : Collection<profile>;
 
@@ -27,7 +27,7 @@ export default class profilesDAO {
     }
 
 
-    static async updateGoogleUserOnProfile(id: UUID, googleUser: ObjectID) {
+    static async updateGoogleUserOnProfile(id: UUID, googleUser: ObjectId | null) {
         try {
             return await profiles.updateOne({_id: id}, {$set: {googleUser: googleUser}});
         } catch (e) {
@@ -35,4 +35,15 @@ export default class profilesDAO {
             return null;
         }
     }
+
+
+    static async getProfileByGoogleObjectId(googleObjId: ObjectId) {
+        try {
+            return await profiles.findOne({googleUser: googleObjId});
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    }
+
 }

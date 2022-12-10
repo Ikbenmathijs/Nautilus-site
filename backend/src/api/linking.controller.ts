@@ -19,15 +19,30 @@ export default class LinkingController {
                 const profile = await profilesDAO.getProfileById(linkObj._id);
                 if (profile != null) {
 
-                    const user = await usersDAO.getUserByGoogleId((verified.payload as TokenPayload).sub);
-                    if (user != null) {
+                    const googleUser = await usersDAO.getUserByGoogleId((verified.payload as TokenPayload).sub);
+                    if (googleUser != null) {
 
-                        const updateResult = profilesDAO.updateGoogleUserOnProfile(profile._id, user._id);
+                        
+                        const currentlyLinkedProfile = await profilesDAO.getProfileByGoogleObjectId(googleUser._id);
+                        if (currentlyLinkedProfile) {
+                            // already linked to same profile (this shouldn't happen unless ties' plugin messes up)
+                            if (currentlyLinkedProfile._id == linkObj._id) {
+                                res.status(403).json({error: "You're already linked to that account!"});
+                                await linkingTokensDAO.deleteLinkingTokenFromUuid(linkObj._id);
+                                return;
+                            } else {
+                                // unlink old profile, new profile will be linked later on
+                                await profilesDAO.updateGoogleUserOnProfile(currentlyLinkedProfile._id, null);
+                            }
+                        }
+                        
+
+                        const updateResult = profilesDAO.updateGoogleUserOnProfile(profile._id, googleUser._id);
                         if (updateResult != null) {
                             res.json(updateResult);
 
 
-                            await usersDAO.updateMinecraftUuidByObjectId(user._id, profile._id);
+                            await usersDAO.updateMinecraftUuidByObjectId(googleUser._id, profile._id);
                             await linkingTokensDAO.deleteLinkingTokenFromUuid(linkObj._id);
                             
                         } else {
