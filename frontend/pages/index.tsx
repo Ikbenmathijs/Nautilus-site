@@ -38,7 +38,8 @@ export default function Home() {
         <div className="py-16 text-center text-slate-200 text-4xl font-bold">Hallo {name}!</div>
       </div>
     </div>
-    <TokenBox /> <br /> <br />
+    <TokenBox onSuccess={linkSuccess} onFail={linkFail} /> <br /> <br /> 
+    <p className="dark:text-white">{status}</p> <br />
     <DiscordButton /> <br /> <br />
     <LogoutButton />
     <CheckLogin callback={onLogIn} />
