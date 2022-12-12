@@ -10,7 +10,7 @@ import DiscordButton from "../components/discordButton";
 export default function Home() {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
-
+  
   function onLogIn(user: User) {
     setName(`${user.firstName} ${user.lastName}`);
   }
@@ -21,12 +21,10 @@ export default function Home() {
   }
 
   function linkFail(e?: AxiosError) {
-    console.log("hallo")
     if (e) {
       // TODO: better error handling
       setStatus(`Fout code ${e.response?.status}: ${(e.response?.data as NautilusApiError).error}`);
     } else {
-      console.log("hoi")
       setStatus("Linking token moet 6 karakters lang zijn!");
     }
   }
@@ -38,11 +36,12 @@ export default function Home() {
         <div className="py-16 text-center text-slate-200 text-4xl font-bold">Hallo {name}!</div>
       </div>
     </div>
-    <TokenBox onSuccess={linkSuccess} onFail={linkFail} /> <br /> <br /> 
-    <p className="dark:text-white">{status}</p> <br />
+    <div className="my-20">
+      <TokenBox onSuccess={linkSuccess} onFail={linkFail} />
+      <p>{status}</p>
+    </div>
     <DiscordButton /> <br /> <br />
     <LogoutButton />
-    <CheckLogin callback={onLogIn} />
   </>
   )
 }
