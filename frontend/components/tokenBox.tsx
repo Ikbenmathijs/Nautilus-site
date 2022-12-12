@@ -38,5 +38,7 @@ export default function TokenBox({onSuccess, onFail}: {onSuccess?: Function, onF
         }
     }
 
-    return (<textarea onKeyDown={sendMessage} value={value} onChange={(e) => {setValue(e.target.value);}} />)
+    return (
+        <textarea className="resize-none bg-white border rounded-lg border-slate-300 focus:bg-sky-50 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:invalid:ring-red-500" onKeyDown={sendMessage} value={value} onChange={(e) => {setValue(e.target.value);}} />
+        )
 }
