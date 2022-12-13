@@ -46,8 +46,6 @@ export default function Home() {
     </div>
     <DiscordButton />
     <LogoutButton />
-    <br />
-    <br />
     <CheckLogin callback={onLogIn} />
     {/* voor hugo: maak de css in ErrorMessage pls :) */}
     <ErrorMessage title={errorTitle} desc={errorDesc} hidden={errorHidden} setHiddenCallback={setErrorHidden} />
