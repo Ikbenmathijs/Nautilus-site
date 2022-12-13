@@ -48,7 +48,7 @@ export default class DiscordController {
                         const discordUserEntry = await discordDAO.getDiscordUserEntryById(googleUser.discordUserEntry);
                         if (discordUserEntry) {
                             const discordMember = await getMember(discordUserEntry.discordUser.id);
-                            if (discordMember.id == discordUser.id) {
+                            if (discordMember && discordMember.id == discordUser.id) {
                                 res.status(403).json({error: `You're already in the discord server with that account! \nAccount ID: ${discordMember.id}`});
                                 return;
                             } else {
@@ -57,9 +57,10 @@ export default class DiscordController {
                                     return;
                                 }
 
-
-                                await discordDAO.deleteDiscordUserEntryById(discordUserEntry._id);
-                                kickUser(discordMember.id, `Het discord account met de naam ${discordUser.username}#${discordUser.discriminator} (id: ${discordUser.id}) is de discord server gejoined met jouw google account. Je kan maar 1 discord account per school google account hebben.`);
+                                if (discordMember) {
+                                    await discordDAO.deleteDiscordUserEntryById(discordUserEntry._id);
+                                    await kickUser(discordMember.id, `Het discord account met de naam ${discordUser.username}#${discordUser.discriminator} (id: ${discordUser.id}) is de discord server gejoined met jouw google account. Je kan maar 1 discord account per school google account hebben.`);
+                                }
                             }
                         }
                     }

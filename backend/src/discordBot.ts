@@ -25,7 +25,11 @@ export async function kickUser(userId: string, reason: string) {
 }
 
 export async function getMember(userId: string) {
-    return await guild.members.fetch(userId);
+    try {
+        return await guild.members.fetch(userId);
+    } catch (e) {
+        return null;
+    } 
 }
 
 dotenv.config();
