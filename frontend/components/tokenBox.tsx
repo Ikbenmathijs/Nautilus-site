@@ -8,6 +8,7 @@ import axios, { AxiosError } from "axios";
 export default function TokenBox({onSuccess, onFail}: {onSuccess?: Function, onFail?: (e?: AxiosError) => void}) {
 
     const [value, setValue] = useState("");
+    const [inputCss, setInputCss] = useState("bg-white border-slate-300 focus:bg-sky-50 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500")
 
     function sendMessage(e: FormEvent<HTMLFormElement>): void {
         e.preventDefault();
@@ -27,19 +28,22 @@ export default function TokenBox({onSuccess, onFail}: {onSuccess?: Function, onF
                 // call the fail callback if it didn't work
                 console.error(e);
                 if (onFail) onFail(e);
+                setInputCss("bg-rose-50 focus:bg-rose-50 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500")
                 setValue("");
+
             });
         } else {
             // call fail if linking token is not 6 characters
             console.error("linking token must be 6 characters long!");
             if (onFail) onFail();
             setValue("");
+            setInputCss("bg-rose-50 border-rose-500 focus:bg-rose-50 focus:outline-none focus:ring-1 focus:ring-rose-500")
         }
     }
 
     return (
         <form onSubmit={sendMessage}>
-         <input className="resize-none bg-white border rounded-lg border-slate-300 focus:bg-sky-50 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:invalid:ring-red-500"  value={value} onChange={(e) => {setValue(e.target.value);}} />
+            <input className={`resize-none border rounded-lg border-slate-300 ${inputCss}`}  value={value} onChange={(e) => {setValue(e.target.value);}} />
         </form>
         )
 }
