@@ -44,10 +44,11 @@ export default function Home() {
     <div className="my-20">
       <TokenBox onSuccess={linkSuccess} onFail={linkFail} />
     </div>
-    <DiscordButton /> <br /> <br />
+    <DiscordButton />
     <LogoutButton />
     <br />
     <br />
+    <CheckLogin callback={onLogIn} />
     {/* voor hugo: maak de css in ErrorMessage pls :) */}
     <ErrorMessage title={errorTitle} desc={errorDesc} hidden={errorHidden} setHiddenCallback={setErrorHidden} />
   </>
