@@ -31,6 +31,11 @@ export default class LinkingController {
                                 await linkingTokensDAO.deleteLinkingTokenFromUuid(linkObj._id);
                                 return;
                             } else {
+                                // check if account can be re-linked, can only be done every 7 days
+                                if (googleUser.canChangeMinecraftAccount && googleUser.canChangeMinecraftAccount as number > Date.now()) {
+                                    res.status(403).json({error: `You cannot change your linked account until ${new Date(googleUser.canChangeMinecraftAccount as number).toISOString()} (${Date.now()})`});
+                                    return;
+                                }
                                 // unlink old profile, new profile will be linked later on
                                 await profilesDAO.updateGoogleUserOnProfile(currentlyLinkedProfile._id, null);
                             }
@@ -39,11 +44,14 @@ export default class LinkingController {
 
                         const updateResult = profilesDAO.updateGoogleUserOnProfile(profile._id, googleUser._id);
                         if (updateResult != null) {
-                            res.json(updateResult);
+                            
 
-
+                            await usersDAO.updateCanChangeMinecraftAccountDate(googleUser._id, Date.now());
                             await usersDAO.updateMinecraftUuidByObjectId(googleUser._id, profile._id);
                             await linkingTokensDAO.deleteLinkingTokenFromUuid(linkObj._id);
+                            
+                            res.json(updateResult);
+                            return;
                             
                         } else {
                             res.status(500).json({error: "Failed to update profile"});

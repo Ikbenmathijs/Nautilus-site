@@ -65,4 +65,22 @@ export default class usersDAO {
         }
     }
 
+
+    static async updateCanChangeMinecraftAccountDate(id: ObjectId, newDate: number) {
+        try {
+            return await users.updateOne({_id: id}, {$set: {canChangeMinecraftAccount: newDate}});
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    }
+
+    static async updateCanChangeDiscordAccountDate(id: ObjectId, newDate: number) {
+        try {
+            return await users.updateOne({_id: id}, {$set: {canChangeDiscordAccount: newDate}});
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    }
 }

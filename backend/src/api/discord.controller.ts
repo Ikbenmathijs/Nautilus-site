@@ -52,6 +52,12 @@ export default class DiscordController {
                                 res.status(403).json({error: `You're already in the discord server with that account! \nAccount ID: ${discordMember.id}`});
                                 return;
                             } else {
+                                if (googleUser.canChangeDiscordAccount && googleUser.canChangeDiscordAccount > Date.now()) {
+                                    res.status(403).json({error: `You cannot change your linked discord account until ${new Date(googleUser.canChangeDiscordAccount).toISOString()} (${Date.now()})`});
+                                    return;
+                                }
+
+
                                 await discordDAO.deleteDiscordUserEntryById(discordUserEntry._id);
                                 kickUser(discordMember.id, `Het discord account met de naam ${discordUser.username}#${discordUser.discriminator} (id: ${discordUser.id}) is de discord server gejoined met jouw google account. Je kan maar 1 discord account per school google account hebben.`);
                             }
@@ -66,7 +72,7 @@ export default class DiscordController {
                         userId: discordUser.id,
                         nickname: (verified.payload as TokenPayload).name
                     });
-                    res.json();
+                    
                 
                     const newDiscordEntry = await discordDAO.createDiscordUser({
                         _id: new ObjectId,
@@ -77,6 +83,9 @@ export default class DiscordController {
                         await usersDAO.updateDiscordObjectIdByObjectId(googleUser._id, newDiscordEntry.insertedId);
                     }
                     
+                    await usersDAO.updateCanChangeDiscordAccountDate(googleUser._id, Date.now());
+
+                    res.json();
                     return;
                 }).catch((e) => {
                     console.error(e);
