@@ -6,10 +6,13 @@ import TokenBox from "../components/tokenBox";
 import { Axios, AxiosError } from "axios";
 import NautilusApiError from "../interfaces/NautilusApiError.interface";
 import DiscordButton from "../components/discordButton";
+import ErrorMessage from "../components/errorMessage";
 
 export default function Home() {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
+  const [errorDesc, setErrorDesc] = useState("");
+  const [errorTitle, setErrorTile] = useState("Er is iets fout gegaan!");
+  const [errorHidden, setErrorHidden] = useState(true);
   
   function onLogIn(user: User) {
     setName(`${user.firstName} ${user.lastName}`);
@@ -17,15 +20,17 @@ export default function Home() {
 
 
   function linkSuccess() {
-    setStatus("Je account is successvol gelinked!");
+    setErrorDesc("Je account is successvol gelinked!");
   }
 
   function linkFail(e?: AxiosError) {
     if (e) {
       // TODO: better error handling
-      setStatus(`Fout code ${e.response?.status}: ${(e.response?.data as NautilusApiError).error}`);
+      setErrorDesc(`Fout code ${e.response?.status}: ${(e.response?.data as NautilusApiError).error}`);
+      setErrorHidden(false);
     } else {
-      setStatus("Linking token moet 6 karakters lang zijn!");
+      setErrorDesc("Linking token moet 6 karakters lang zijn!");
+      setErrorHidden(false);
     }
   }
 
@@ -38,10 +43,13 @@ export default function Home() {
     </div>
     <div className="my-20">
       <TokenBox onSuccess={linkSuccess} onFail={linkFail} />
-      <p>{status}</p>
     </div>
     <DiscordButton /> <br /> <br />
     <LogoutButton />
+    <br />
+    <br />
+    {/* voor hugo: maak de css in ErrorMessage pls :) */}
+    <ErrorMessage title={errorTitle} desc={errorDesc} hidden={errorHidden} setHiddenCallback={setErrorHidden} />
   </>
   )
 }

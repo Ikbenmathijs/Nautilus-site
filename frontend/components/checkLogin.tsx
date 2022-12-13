@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 
-let t: Function = () => {}
+
 export default function CheckLogin({callback}: {callback?: Function}) {
 
     const router = useRouter();
