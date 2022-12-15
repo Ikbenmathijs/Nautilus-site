@@ -10,7 +10,9 @@ export default function LogoutButton() {
     }
  
 
-    return (
-        <button className="dark:text-white" onClick={logout}>Uitloggen</button>
-    )
+    return (<>
+        <button onClick={logout}>
+            <div className="float-right p-3 ml-5 border rounded-lg bg-rose-400 hover:bg-rose-500 hover:shadow-inner text-white font-medium text-md">Uitloggen</div>
+        </button>
+    </>)
 }

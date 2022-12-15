@@ -34,21 +34,27 @@ export default function Home() {
     }
   }
 
-  return (
-  <>
+  return (<>
     <div className="bg-fixed bg-cover bg-[url('https://cdn.mos.cms.futurecdn.net/v6XoEzDajGRMWNeLY5NMSb-1920-80.jpg.webp')]">
-      <div className="backdrop-blur-md">
-        <div className="py-16 text-center text-slate-200 text-4xl font-bold">Hallo {name}!</div>
+      <div className="relative grid place-content-center backdrop-blur-md h-screen w-screen">
+        <div className="bg-white border rounded-lg p-6">
+          <div className="mb-5">
+            <div className='text-2xl text-slate-700 text-center font-medium'>Welkom {name}!</div>
+            <div className='text-lg text-slate-500'>Vul je linking token in om de Server te joinen</div>
+          </div>
+          <div className="grid static place-content-center">
+            <TokenBox onSuccess={linkSuccess} onFail={linkFail} />
+          </div>
+          <div className="grid static place-content-center mt-4">  
+            <div>
+              <DiscordButton />
+              <LogoutButton />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div className="my-20">
-      <TokenBox onSuccess={linkSuccess} onFail={linkFail} />
-    </div>
-    <DiscordButton />
-    <LogoutButton />
-    <CheckLogin callback={onLogIn} />
-    {/* voor hugo: maak de css in ErrorMessage pls :) */}
     <ErrorMessage title={errorTitle} desc={errorDesc} hidden={errorHidden} setHiddenCallback={setErrorHidden} />
-  </>
-  )
+    <CheckLogin callback={onLogIn} />
+  </>)
 }

@@ -30,8 +30,17 @@ export default function DiscordRedirectReceiver() {
     }, [router.isReady]);
 
 
-    return (<div className="dark:text-white">
-        <h1>Even wachten!</h1>
-        <p>{status}</p>
-    </div>)
+    return (<>
+        <div className="bg-fixed bg-cover bg-[url('https://cdn.mos.cms.futurecdn.net/v6XoEzDajGRMWNeLY5NMSb-1920-80.jpg.webp')]">
+            <div className='grid static place-content-center h-screen w-screen backdrop-blur-md'>
+                <div className='static bg-white border rounded-lg p-5'>
+                    <div className='text-2xl text-rose-600 text-center font-bold'>Even wachten</div>
+                    <div className='text-lg text-slate-500'>{status}</div>
+                    <div className="flex justify-center mt-3">
+                        <div className="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-rose-500 rounded-full" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </>)
 }
