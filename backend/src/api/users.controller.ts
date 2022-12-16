@@ -35,7 +35,8 @@ export default class usersController {
                         res.status(502).json({error: "Het is niet gelukt om je te registreren."});
                     }
                 } else {
-                    res.status(403).json({error: "Je moet je school account gebruiken!"})
+                    res.status(403).json({error: "Je moet je school account gebruiken!"});
+                    console.log(`sussy imposter ${payload.email} is not a school account!`);
                 }
 
             } else {
