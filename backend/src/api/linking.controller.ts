@@ -13,7 +13,6 @@ export default class LinkingController {
         const verified = await verifyUser(req.body.token);
 
         if (verified.authorised) {
-            console.log(req.body.linkingToken)
             const linkObj = await linkingTokensDAO.getUuidByLinkingToken(req.body.linkingToken);
             if (linkObj != null) {
 
@@ -24,7 +23,6 @@ export default class LinkingController {
                     if (googleUser != null) {
 
                         const currentlyLinkedProfile = await profilesDAO.getProfileByGoogleObjectId(googleUser._id);
-                        console.log(`Google user ID: ${googleUser._id} Linked profile: ${currentlyLinkedProfile}`);
                         if (currentlyLinkedProfile) {
                             // already linked to same profile (this shouldn't happen unless ties' plugin messes up)
                             if (currentlyLinkedProfile._id == linkObj._id) {
