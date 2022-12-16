@@ -19,7 +19,7 @@ export default function TokenBox({onSuccess, onFail}: {onSuccess?: Function, onF
             axios.post(`${process.env.NEXT_PUBLIC_API_URL}/link`, 
             {
                 token: localStorage.getItem("loginToken"),
-                linkingToken: (e.target as HTMLInputElement).value
+                linkingToken: text
             }).then((response) => {
                 // call the success callback if the account was linked
                 if (onSuccess) onSuccess();

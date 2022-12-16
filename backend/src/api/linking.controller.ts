@@ -13,6 +13,7 @@ export default class LinkingController {
         const verified = await verifyUser(req.body.token);
 
         if (verified.authorised) {
+            console.log(req.body.linkingToken)
             const linkObj = await linkingTokensDAO.getUuidByLinkingToken(req.body.linkingToken);
             if (linkObj != null) {
 
@@ -22,8 +23,8 @@ export default class LinkingController {
                     const googleUser = await usersDAO.getUserByGoogleId((verified.payload as TokenPayload).sub);
                     if (googleUser != null) {
 
-                        
                         const currentlyLinkedProfile = await profilesDAO.getProfileByGoogleObjectId(googleUser._id);
+                        console.log(`Google user ID: ${googleUser._id} Linked profile: ${currentlyLinkedProfile}`);
                         if (currentlyLinkedProfile) {
                             // already linked to same profile (this shouldn't happen unless ties' plugin messes up)
                             if (currentlyLinkedProfile._id == linkObj._id) {
@@ -32,8 +33,9 @@ export default class LinkingController {
                                 return;
                             } else {
                                 // check if account can be re-linked, can only be done every 7 days
-                                if (googleUser.canChangeMinecraftAccount && googleUser.canChangeMinecraftAccount as number > Date.now()) {
-                                    res.status(403).json({error: `You cannot change your linked account until ${new Date(googleUser.canChangeMinecraftAccount as number).toISOString()} (${Date.now()})`});
+                                console.log(`${googleUser.canChangeMinecraftAccount && googleUser.canChangeMinecraftAccount.getTime()} > ${Date.now()}: ${googleUser.canChangeMinecraftAccount && googleUser.canChangeMinecraftAccount.getTime() > Date.now()}`);
+                                if (googleUser.canChangeMinecraftAccount && googleUser.canChangeMinecraftAccount.getTime() > Date.now()) {
+                                    res.status(403).json({error: `You cannot change your linked account until ${googleUser.canChangeMinecraftAccount.toISOString()} (${googleUser.canChangeMinecraftAccount.getTime()})`});
                                     return;
                                 }
                                 // unlink old profile, new profile will be linked later on
@@ -46,7 +48,7 @@ export default class LinkingController {
                         if (updateResult != null) {
                             
 
-                            await usersDAO.updateCanChangeMinecraftAccountDate(googleUser._id, Date.now());
+                            await usersDAO.updateCanChangeMinecraftAccountDate(googleUser._id, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
                             await usersDAO.updateMinecraftUuidByObjectId(googleUser._id, profile._id);
                             await linkingTokensDAO.deleteLinkingTokenFromUuid(linkObj._id);
                             

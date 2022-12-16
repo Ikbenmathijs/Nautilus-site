@@ -52,7 +52,7 @@ export default class DiscordController {
                                 res.status(403).json({error: `You're already in the discord server with that account! \nAccount ID: ${discordMember.id}`});
                                 return;
                             } else {
-                                if (googleUser.canChangeDiscordAccount && googleUser.canChangeDiscordAccount > Date.now()) {
+                                if (googleUser.canChangeDiscordAccount && googleUser.canChangeDiscordAccount.getTime() > Date.now()) {
                                     res.status(403).json({error: `You cannot change your linked discord account until ${new Date(googleUser.canChangeDiscordAccount).toISOString()} (${Date.now()})`});
                                     return;
                                 }
@@ -84,7 +84,7 @@ export default class DiscordController {
                         await usersDAO.updateDiscordObjectIdByObjectId(googleUser._id, newDiscordEntry.insertedId);
                     }
                     
-                    await usersDAO.updateCanChangeDiscordAccountDate(googleUser._id, Date.now());
+                    await usersDAO.updateCanChangeDiscordAccountDate(googleUser._id, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
 
                     res.json();
                     return;

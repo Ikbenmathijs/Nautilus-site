@@ -8,6 +8,6 @@ export default interface User {
     googleID: string;
     minecraftUuid?: UUID;
     discordUserEntry?: ObjectID;
-    canChangeMinecraftAccount?: number;
-    canChangeDiscordAccount?: number;
+    canChangeMinecraftAccount?: Date;
+    canChangeDiscordAccount?: Date;
 }

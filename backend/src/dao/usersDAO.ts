@@ -66,7 +66,7 @@ export default class usersDAO {
     }
 
 
-    static async updateCanChangeMinecraftAccountDate(id: ObjectId, newDate: number) {
+    static async updateCanChangeMinecraftAccountDate(id: ObjectId, newDate: Date) {
         try {
             return await users.updateOne({_id: id}, {$set: {canChangeMinecraftAccount: newDate}});
         } catch (e) {
@@ -75,7 +75,7 @@ export default class usersDAO {
         }
     }
 
-    static async updateCanChangeDiscordAccountDate(id: ObjectId, newDate: number) {
+    static async updateCanChangeDiscordAccountDate(id: ObjectId, newDate: Date) {
         try {
             return await users.updateOne({_id: id}, {$set: {canChangeDiscordAccount: newDate}});
         } catch (e) {
