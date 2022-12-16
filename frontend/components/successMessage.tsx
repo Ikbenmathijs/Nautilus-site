@@ -14,9 +14,9 @@ export default function ErrorMessage ({title, desc, hidden, setHiddenCallback, o
                 <div className="relative w-full h-full">
                     <div className="relative bg-white rounded-lg shadow-2xl shadow-slate-700 backdrop-grayscale">
                         <div className="p-6 text-center">
-                            <div className="text-rose-600 font-medium text-xl">{title}</div>
+                            <div className="text-teal-600 font-medium text-xl">{title}</div>
                             <div className="mb-5 text-lg font-normal text-gray-500">{desc}</div>
-                            <button className="text-white bg-rose-500 hover:bg-rose-700 hover:shadow-inner font-medium rounded-lg text-sm items-center px-5 py-2.5 text-center mr-2" onClick={okButtonClicked}>Oké.</button>
+                            <button className="text-white bg-teal-500 hover:bg-teal-700 hover:shadow-inner font-medium rounded-lg text-sm items-center px-5 py-2.5 text-center mr-2" onClick={okButtonClicked}>Oké.</button>
                         </div>
                     </div>
                 </div>

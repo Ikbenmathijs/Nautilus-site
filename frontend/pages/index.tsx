@@ -7,12 +7,14 @@ import { Axios, AxiosError } from "axios";
 import NautilusApiError from "../interfaces/NautilusApiError.interface";
 import DiscordButton from "../components/discordButton";
 import ErrorMessage from "../components/errorMessage";
+import SuccessMessage from "../components/successMessage";
 
 export default function Home() {
   const [name, setName] = useState("");
   const [errorDesc, setErrorDesc] = useState("");
   const [errorTitle, setErrorTile] = useState("Er is iets fout gegaan!");
   const [errorHidden, setErrorHidden] = useState(true);
+  const [successHidden, setSuccessHidden] = useState(true);
   
   function onLogIn(user: User) {
     setName(`${user.firstName} ${user.lastName}`);
@@ -20,7 +22,7 @@ export default function Home() {
 
 
   function linkSuccess() {
-    setErrorDesc("Je account is successvol gelinked!");
+    setSuccessHidden(false);
   }
 
   function linkFail(e?: AxiosError) {
@@ -55,6 +57,7 @@ export default function Home() {
       </div>
     </div>
     <ErrorMessage title={errorTitle} desc={errorDesc} hidden={errorHidden} setHiddenCallback={setErrorHidden} />
+    <SuccessMessage title="Het is gelukt!" desc="Je kan nu de server joinen. Veel plezier!" hidden={successHidden} setHiddenCallback={setSuccessHidden} />
     <CheckLogin callback={onLogIn} />
   </>)
 }

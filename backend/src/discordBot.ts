@@ -1,7 +1,7 @@
 import { Client, GatewayIntentBits, Guild } from "discord.js";
 import dotenv from "dotenv";
 
-const client = new Client({ intents: [GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildBans] });
+const client = new Client({ intents: [GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildBans, GatewayIntentBits.DirectMessages] });
 let guild: Guild;
 
 
@@ -18,8 +18,10 @@ client.on("ready", async () => {
 
 export async function kickUser(userId: string, reason: string) {
     const member = await guild.members.fetch(userId);
-    if (member && member.dmChannel) {
-        await member.dmChannel.send(`Je bent gekicked van de fioretti minecraft discord server.\n\nReden: ${reason}`);
+    const DMChannel = member.dmChannel || await member.createDM();
+    console.log(`${member} ${member.dmChannel}`);
+    if (member && DMChannel) {
+        await DMChannel.send(`Je bent gekicked van de fioretti minecraft discord server.\n\nReden: ${reason}`);
     }
     await guild.members.kick(userId, reason);
 }

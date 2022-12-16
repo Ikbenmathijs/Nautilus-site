@@ -54,21 +54,21 @@ export default class LinkingController {
                             return;
                             
                         } else {
-                            res.status(500).json({error: "Failed to update profile"});
+                            res.status(502).json({error: "Het is niet gelukt om je account te linken."});
                         }
 
                     } else {
-                        res.status(404).json({error: "google user was not found!"});
+                        res.status(404).json({error: "Kon jouw google account niet vinden. Probeer opnieuw in te loggen"});
                     }
 
                 } else {
-                    res.status(404).json({error: "profile was not found"});
+                    res.status(404).json({error: "Kon je minecraft profiel niet vinden. Join eerst de minecraft server!"});
                 }
             } else {
-                res.status(404).json({error: "linking token was not found"});
+                res.status(404).json({error: "Deze linking code bestaat niet!"});
             }
         } else {
-            res.status(401).json({error: "Login token is invalid, please sign in again"});
+            res.status(401).json({error: "Je sessie is verlopen, log opnieuw in!"});
         }
     }
 

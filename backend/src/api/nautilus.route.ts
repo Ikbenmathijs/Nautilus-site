@@ -6,7 +6,7 @@ import DiscordController from "./discord.controller";
 
 const router = express.Router();
 
-router.route("/profiles/:id").get(ProfilesController.apiGetProfileById);
+//router.route("/profiles/:id").get(ProfilesController.apiGetProfileById);
 
 router.route("/auth").post(usersController.apiLoginUser);
 

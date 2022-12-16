@@ -21,7 +21,7 @@ export default class DiscordController {
         const discordCode = req.body.discordCode as string;
 
         if (!verified.authorised) {
-            res.status(401).json({error: "Login token is invalid, please sign in again"});
+            res.status(401).json({error: "Je sessie is verlopen, log opnieuw in!"});
             return;
         } 
 
@@ -49,11 +49,11 @@ export default class DiscordController {
                         if (discordUserEntry) {
                             const discordMember = await getMember(discordUserEntry.discordUser.id);
                             if (discordMember && discordMember.id == discordUser.id) {
-                                res.status(403).json({error: `You're already in the discord server with that account! \nAccount ID: ${discordMember.id}`});
+                                res.status(403).json({error: `Je zit al met dat account in de server! \nAccount ID: ${discordMember.id}`});
                                 return;
                             } else {
                                 if (googleUser.canChangeDiscordAccount && googleUser.canChangeDiscordAccount.getTime() > Date.now()) {
-                                    res.status(403).json({error: `You cannot change your linked discord account until ${new Date(googleUser.canChangeDiscordAccount).toISOString()} (${Date.now()})`});
+                                    res.status(403).json({error: `Je kan niet je discord account veranderen tot ${new Date(googleUser.canChangeDiscordAccount).toISOString()} (${Date.now()})`});
                                     return;
                                 }
 
@@ -90,16 +90,16 @@ export default class DiscordController {
                     return;
                 }).catch((e) => {
                     console.error(e);
-                    res.status(404).json({error: "Could not find the discord user!"});
+                    res.status(404).json({error: "Het is niet gelukt om je discord account te vinden. Probeer het opnieuw!"});
                     return;
                 })
             }).catch((e) => {
                 console.error(e);
-                res.status(404).json({error: "Discord code is invalid"});
+                res.status(404).json({error: "De discord authorizatie is verlopen. Probeer het opnieuw!"});
                 return;
             })
         } else {
-            res.status(404).json({error: "Your google token is valid, but your account couldn't be found! Maybe log in again to register?"});
+            res.status(404).json({error: "Je google account is niet gevonden. Probeer opnieuw in te loggen!"});
         }
 
     }
