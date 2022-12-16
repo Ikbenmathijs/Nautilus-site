@@ -1,38 +1,39 @@
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 
-export default function LoginButton() {
+export default function LoginButton({onLoginFail}: {onLoginFail?: Function}) {
 
 
     const router = useRouter();
 
     function loginSuccess(credentialResponse: CredentialResponse) {
-        verifyLogin(credentialResponse.credential as string);
+        verifyLogin(credentialResponse.credential as string, true);
     }
 
-    function loginFail() {
-
+    function loginFail(e?: AxiosError) {
+        if (onLoginFail) onLoginFail(e);
     }
 
 
-    function verifyLogin(loginToken: string) {
+    function verifyLogin(loginToken: string, callFail: boolean) {
         axios.post(`${process.env.NEXT_PUBLIC_API_URL as string}/auth`, { 
             token: loginToken
         }).then((response) => {
             localStorage.setItem("loginToken", loginToken);
             router.push("/");
-        }).catch((e) => {
+        }).catch((e: AxiosError) => {
             console.error(e);
+            if (callFail) loginFail(e);
         });
     }
 
     useEffect(() => {
         if (router.isReady) {
             if (localStorage.getItem("loginToken") != null) {
-                verifyLogin(localStorage.getItem("loginToken") as string);
+                verifyLogin(localStorage.getItem("loginToken") as string, false);
             }
         }
     }, [router.isReady])

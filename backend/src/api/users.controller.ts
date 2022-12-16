@@ -17,21 +17,25 @@ export default class usersController {
 
             let currentUser = await usersDAO.getUserByGoogleId(payload.sub);
             if (currentUser == null) {
-                console.log(`Creating new user for ${payload.name}`);
-                let newUser: User = {
-                    _id: new ObjectID(),
-                    firstName: payload.given_name,
-                    lastName: payload.family_name,
-                    email: payload.email,
-                    googleID: payload.sub
-                };
+                if (payload.hd == "fiorettileerling.nl" || payload.hd == "fioretti.nl" || payload.hd == "sft-vo.nl") {
+                    console.log(`Creating new user for ${payload.name}`);
+                    let newUser: User = {
+                        _id: new ObjectID(),
+                        firstName: payload.given_name,
+                        lastName: payload.family_name,
+                        email: payload.email,
+                        googleID: payload.sub
+                    };
 
-                let result = await usersDAO.createNewUser(newUser);
+                    let result = await usersDAO.createNewUser(newUser);
 
-                if (result != null) {
-                    res.json(newUser);
+                    if (result != null) {
+                        res.json(newUser);
+                    } else {
+                        res.status(502).json({error: "Het is niet gelukt om je te registreren."});
+                    }
                 } else {
-                    res.status(500).json();
+                    res.status(403).json({error: "Je moet je school account gebruiken!"})
                 }
 
             } else {
@@ -40,7 +44,7 @@ export default class usersController {
                 
             }            
         } else {
-            res.status(401).json();
+            res.status(401).json({error: "De sessie is verlopen. Log opnieuw in!"});
         }
     }
 
