@@ -10,8 +10,8 @@ export default function TokenBox({onSuccess, onFail}: {onSuccess?: Function, onF
     const [value, setValue] = useState("");
     const [inputCss, setInputCss] = useState("bg-white hover:bg-gray-100 border-slate-300 focus:bg-sky-50 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500")
 
-    function sendMessage(e: FormEvent<HTMLFormElement>): void {
-        e.preventDefault();
+    function sendMessage(e?: FormEvent<HTMLFormElement>): void {
+        if (e != undefined){e.preventDefault()}
         const text = value;
         // linking token is 6 characters
         if (text.length == 6) { 
@@ -43,8 +43,11 @@ export default function TokenBox({onSuccess, onFail}: {onSuccess?: Function, onF
     }
 
     return (
-        <form onSubmit={sendMessage}>
-            <input className={`py-2 px-14 shadow-inner border rounded-lg border-slate-300 placeholder:text-sm ${inputCss}`} placeholder='Vul hier je Linking token in' value={value} onChange={(e) => {setValue(e.target.value);}} />
-        </form>
+        <div className="grid static place-content-center">
+            <form onSubmit={sendMessage}>
+                <input className={`py-2 px-14 shadow-inner border rounded-lg border-slate-300 placeholder:text-sm ${inputCss}`} placeholder='Vul hier je Linking token in' value={value} onChange={(e) => {setValue(e.target.value);}} />    
+            </form>
+            <button className="float-left p-1 mt-1 mx-10 border rounded-lg bg-emerald-400 hover:bg-emerald-500 hover:shadow-inner text-white font-medium text-md" onClick={(e) => {sendMessage()}}>Link!</button>
+        </div>
         )
 }
