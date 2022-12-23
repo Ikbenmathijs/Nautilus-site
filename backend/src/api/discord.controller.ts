@@ -7,7 +7,7 @@ import usersDAO from "../dao/usersDAO";
 import discordDAO from "../dao/discordDAO";
 import User from "../interfaces/User.interface";
 import { ObjectId } from "mongodb";
-import { kickUser, getMember } from "../discordBot";
+import { kickUser, getMember, giveRole } from "../discordBot";
 
 const discordOauth = new DiscordOAuth2();
 
@@ -85,6 +85,7 @@ export default class DiscordController {
                     }
                     
                     await usersDAO.updateCanChangeDiscordAccountDate(googleUser._id, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+                    await giveRole(discordUser.id);
 
                     res.json();
                     return;

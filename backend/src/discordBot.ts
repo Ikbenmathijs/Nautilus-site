@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Guild } from "discord.js";
+import { Client, GatewayIntentBits, Guild, Role, Snowflake } from "discord.js";
 import dotenv from "dotenv";
 
 const client = new Client({ intents: [GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildBans, GatewayIntentBits.DirectMessages] });
@@ -32,6 +32,16 @@ export async function getMember(userId: string) {
     } catch (e) {
         return null;
     } 
+}
+
+export async function giveRole(userId: string) {
+    try {
+        
+        const member = await guild.members.fetch(userId);
+        member.roles.add(await guild.roles.fetch(process.env.DISCORD_ROLE_ID as Snowflake) as Role);
+    } catch (e) {
+        return null;
+    }
 }
 
 dotenv.config();
