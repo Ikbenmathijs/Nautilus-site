@@ -38,10 +38,7 @@ export async function giveRole(userId: string) {
     try {
     
         const member = await guild.members.fetch(userId);
-        console.log(member);
         const role = await guild.roles.fetch(process.env.DISCORD_ROLE_ID as string) as Role;
-        console.log(role);
-        console.log(process.env.DISCORD_ROLE_ID as string);
         await member.roles.add(role);
     } catch (e) {
         return null;
