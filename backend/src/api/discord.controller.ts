@@ -52,7 +52,7 @@ export default class DiscordController {
                                 res.status(403).json({error: `Je zit al met dat account in de server! \nAccount ID: ${discordMember.id}`});
                                 return;
                             } else {
-                                if (googleUser.canChangeDiscordAccount && googleUser.canChangeDiscordAccount.getTime() > Date.now()) {
+                                if (discordUser.id !== discordUserEntry.discordUser.id && googleUser.canChangeDiscordAccount && googleUser.canChangeDiscordAccount.getTime() > Date.now()) {
                                     res.status(403).json({error: `Je kan niet je discord account veranderen tot ${new Date(googleUser.canChangeDiscordAccount).toISOString()} (${Date.now()})`});
                                     return;
                                 }
